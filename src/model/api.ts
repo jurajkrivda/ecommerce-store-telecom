@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { notFound } from 'next/navigation';
 import { API_CONFIG } from '@/lib/config';
 
 const RatingSchema = z.object({
@@ -56,14 +57,22 @@ export async function getProduct(id: number): Promise<Product> {
       next: { revalidate: 3600 },
     });
 
+    // API do not return 404 when product not found !!!! :-(
+
     if (!response.ok) {
+      // If API returns 404, we can handle it here
       if (response.status === 404) {
-        throw new Error(`Product with ID ${id} not found`);
+        notFound();
       }
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    const responseText = await response.text();
+    if (!responseText || responseText.trim() === '') {
+      notFound();
+    }
+
+    const data = JSON.parse(responseText);
 
     const validatedData = ProductSchema.parse(data);
 

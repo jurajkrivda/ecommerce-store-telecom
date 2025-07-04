@@ -26,7 +26,7 @@ export default async function ProductDetailPage({
           href="/"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
         >
-          Back to Products
+          ← Back to Products
         </Link>
       </div>
 
@@ -38,6 +38,7 @@ export default async function ProductDetailPage({
             alt={product.title}
             width={400}
             height={400}
+            data-testid="product-image"
             className="w-full max-w-md h-auto object-contain rounded-lg"
             priority={true}
           />
@@ -49,16 +50,22 @@ export default async function ProductDetailPage({
             <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full mb-2 capitalize">
               {product.category}
             </span>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <h1
+              data-testid="product-title"
+              className="text-3xl font-bold text-gray-900 mb-4"
+            >
               {product.title}
             </h1>
           </div>
 
           <div className="flex items-center space-x-4">
-            <span className="text-4xl font-bold text-green-600">
+            <span
+              data-testid="product-price"
+              className="text-4xl font-bold text-green-600"
+            >
               ${product.price}
             </span>
-            <div className="flex items-center">
+            <div data-testid="product-rating" className="flex items-center">
               <span className="text-yellow-500 text-xl">★</span>
               <span className="text-lg font-semibold ml-1">
                 {product.rating.rate}
@@ -71,7 +78,10 @@ export default async function ProductDetailPage({
 
           <div>
             <h2 className="text-xl font-semibold mb-3">Description</h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p
+              data-testid="product-description"
+              className="text-gray-600 leading-relaxed"
+            >
               {product.description}
             </p>
           </div>

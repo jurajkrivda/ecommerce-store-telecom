@@ -6,6 +6,7 @@ import { useState, useMemo, useCallback } from 'react';
 import type { Product } from '@/model/api';
 import { PriceFilter } from './price-filter';
 import { PRICE_FILTER_CONFIG } from '@/lib/config';
+import { filterProductsByPrice } from '@/lib/price-utils';
 
 type ProductGridProps = {
   products: Product[];
@@ -23,10 +24,7 @@ export function ProductGrid({ products }: ProductGridProps) {
   }, []);
 
   const filteredProducts = useMemo(() => {
-    return products.filter(
-      product =>
-        product.price >= minPriceFilter && product.price <= maxPriceFilter
-    );
+    return filterProductsByPrice(products, minPriceFilter, maxPriceFilter);
   }, [products, minPriceFilter, maxPriceFilter]);
 
   const handlePriceFilter = useCallback((min: number, max: number) => {
@@ -62,10 +60,14 @@ export function ProductGrid({ products }: ProductGridProps) {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div
+        data-testid="product-grid"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
         {filteredProducts.map(product => (
           <div
             key={product.id}
+            data-testid="product-card"
             className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
           >
             <Link href={`/products/${product.id}`}>
@@ -85,7 +87,10 @@ export function ProductGrid({ products }: ProductGridProps) {
               {product.description}
             </p>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-xl font-bold text-green-600">
+              <span
+                data-testid="product-price"
+                className="text-xl font-bold text-green-600"
+              >
                 ${product.price}
               </span>
               <span className="text-sm text-gray-500 capitalize">
