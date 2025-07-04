@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Next.js build outputs
+.next/
+out/
+dist/
+
+# Environment files
+.env*
+
+# Package manager files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Public assets
+public/
+
+# Build artifacts
+*.tsbuildinfo 
