@@ -9,6 +9,8 @@ type ProductDetailPageProps = {
   }>;
 };
 
+export const revalidate = 3600;
+
 export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {

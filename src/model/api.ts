@@ -26,7 +26,9 @@ const API_BASE_URL = API_CONFIG.BASE_URL;
 
 export async function getProducts(): Promise<Product[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/products`);
+    const response = await fetch(`${API_BASE_URL}/products`, {
+      next: { revalidate: 300 },
+    });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -34,7 +36,6 @@ export async function getProducts(): Promise<Product[]> {
 
     const data = await response.json();
 
-    // Validate the response data using Zod
     const validatedData = ProductsSchema.parse(data);
 
     return validatedData;
@@ -51,7 +52,9 @@ export async function getProducts(): Promise<Product[]> {
 
 export async function getProduct(id: number): Promise<Product> {
   try {
-    const response = await fetch(`${API_BASE_URL}/products/${id}`);
+    const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+      next: { revalidate: 3600 },
+    });
 
     if (!response.ok) {
       if (response.status === 404) {
@@ -62,7 +65,6 @@ export async function getProduct(id: number): Promise<Product> {
 
     const data = await response.json();
 
-    // Validate the response data using Zod
     const validatedData = ProductSchema.parse(data);
 
     return validatedData;
